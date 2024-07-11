@@ -1,0 +1,8 @@
+require('game.vector')
+require('game.mover')
+require('game.utils')
+require('game.paddle')
+require('game.ball')
+require('game.player')
+require('game.ai-player')
+require('game.game')

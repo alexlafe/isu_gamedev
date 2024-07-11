@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://t8jj2iaoy3u"
+path="res://.godot/imported/Сбор подарков.mp3-1850f9309cc19d90e94446f720a9d5f1.mp3str"
+
+[deps]
+
+source_file="res://audio/Сбор подарков.mp3"
+dest_files=["res://.godot/imported/Сбор подарков.mp3-1850f9309cc19d90e94446f720a9d5f1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

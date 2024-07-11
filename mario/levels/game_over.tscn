@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmhm5jk7s314d"]
+
+[ext_resource type="Texture2D" uid="uid://dbcitarqgglbc" path="res://menu sprites/Меню настроек (1).jpg" id="1_b0r1v"]
+[ext_resource type="Script" path="res://scripts/game_over.gd" id="1_twup8"]
+[ext_resource type="FontFile" uid="uid://c302n8emoo2ik" path="res://Boogaloo-Regular.ttf" id="2_6q3t4"]
+[ext_resource type="AudioStream" uid="uid://drdt61dueyo2r" path="res://audio/Фон.mp3" id="4_i1oew"]
+[ext_resource type="AudioStream" uid="uid://bwac6c3xbi0s7" path="res://audio/active.mp3" id="5_je01d"]
+[ext_resource type="AudioStream" uid="uid://cr02eshcr8woa" path="res://audio/hover.mp3" id="6_lf82c"]
+
+[node name="game over" type="Node2D"]
+script = ExtResource("1_twup8")
+
+[node name="МенюНастроек(1)" type="Sprite2D" parent="."]
+position = Vector2(577.111, 325.375)
+scale = Vector2(0.604861, 0.604861)
+texture = ExtResource("1_b0r1v")
+
+[node name="Continue" type="Button" parent="МенюНастроек(1)"]
+top_level = true
+offset_left = 111.0
+offset_top = 552.0
+offset_right = 311.0
+offset_bottom = 621.0
+theme_override_colors/font_color = Color(0.905882, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.654902, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0.909804, 0.423529, 0.423529, 1)
+theme_override_colors/font_focus_color = Color(0.905882, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.905882, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.905882, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.905882, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_6q3t4")
+theme_override_font_sizes/font_size = 50
+text = "Start again"
+flat = true
+
+[node name="Exit" type="Button" parent="МенюНастроек(1)"]
+top_level = true
+offset_left = 258.0
+offset_top = 554.0
+offset_right = 513.0
+offset_bottom = 624.0
+theme_override_colors/font_color = Color(0.164706, 0.529412, 0.627451, 1)
+theme_override_colors/font_pressed_color = Color(0, 0.4, 0.509804, 1)
+theme_override_colors/font_hover_color = Color(0.431373, 0.639216, 0.694118, 1)
+theme_override_colors/font_focus_color = Color(0.164706, 0.529412, 0.627451, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.164706, 0.529412, 0.627451, 1)
+theme_override_colors/font_disabled_color = Color(0.164706, 0.529412, 0.627451, 1)
+theme_override_colors/font_outline_color = Color(0.164706, 0.529412, 0.627451, 1)
+theme_override_fonts/font = ExtResource("2_6q3t4")
+theme_override_font_sizes/font_size = 50
+text = "Exit"
+flat = true
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_i1oew")
+autoplay = true
+
+[node name="active" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_je01d")
+
+[node name="hover" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_lf82c")
+
+[connection signal="mouse_entered" from="МенюНастроек(1)/Continue" to="." method="_on_continue_mouse_entered"]
+[connection signal="pressed" from="МенюНастроек(1)/Continue" to="." method="_on_continue_pressed"]
+[connection signal="mouse_entered" from="МенюНастроек(1)/Exit" to="." method="_on_exit_mouse_entered"]
+[connection signal="pressed" from="МенюНастроек(1)/Exit" to="." method="_on_sound_on_off_pressed"]
+[connection signal="pressed" from="МенюНастроек(1)/Exit" to="." method="_on_exit_pressed"]

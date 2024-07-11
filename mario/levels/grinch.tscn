@@ -1,0 +1,109 @@
+[gd_scene load_steps=15 format=3 uid="uid://ho61u06xdrpd"]
+
+[ext_resource type="Script" path="res://scripts/grinch.gd" id="1_vynrl"]
+[ext_resource type="Texture2D" uid="uid://bwcewtjobuwcl" path="res://level sprites/Grinch-sheet.png" id="2_qj3px"]
+[ext_resource type="AudioStream" uid="uid://c6n7g5exwq1nv" path="res://audio/Смерть Гринча.mp3" id="3_h18q3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwues"]
+atlas = ExtResource("2_qj3px")
+region = Rect2(0, 0, 23, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmgq8"]
+atlas = ExtResource("2_qj3px")
+region = Rect2(26, 0, 23, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wsfnl"]
+atlas = ExtResource("2_qj3px")
+region = Rect2(52, 0, 23, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ap1b8"]
+atlas = ExtResource("2_qj3px")
+region = Rect2(78, 0, 23, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5sv4c"]
+atlas = ExtResource("2_qj3px")
+region = Rect2(104, 0, 23, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1vyk"]
+atlas = ExtResource("2_qj3px")
+region = Rect2(130, 0, 23, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3slre"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwues")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmgq8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wsfnl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ap1b8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5sv4c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1vyk")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 7.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a5ypq"]
+radius = 3.92157
+height = 44.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_imopi"]
+radius = 66.7533
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ohylw"]
+size = Vector2(9, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oq3gu"]
+size = Vector2(22, 20)
+
+[node name="Grinch" type="CharacterBody2D"]
+top_level = true
+script = ExtResource("1_vynrl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(29, 32)
+sprite_frames = SubResource("SpriteFrames_3slre")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(28.505, 32)
+scale = Vector2(1.125, 1.02)
+shape = SubResource("CapsuleShape2D_a5ypq")
+
+[node name="Detector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Detector"]
+position = Vector2(28, 32)
+shape = SubResource("CircleShape2D_imopi")
+
+[node name="Death" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Death"]
+position = Vector2(27, 9)
+shape = SubResource("RectangleShape2D_ohylw")
+
+[node name="Player_Damage" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player_Damage"]
+position = Vector2(27, 42)
+shape = SubResource("RectangleShape2D_oq3gu")
+
+[node name="grinch_music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_h18q3")
+
+[connection signal="body_entered" from="Detector" to="." method="_on_detector_body_entered"]
+[connection signal="body_shape_exited" from="Detector" to="." method="_on_detector_body_shape_exited"]
+[connection signal="body_entered" from="Death" to="." method="_on_death_body_entered"]
+[connection signal="body_entered" from="Player_Damage" to="." method="_on_player_damage_body_entered"]

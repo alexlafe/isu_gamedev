@@ -1,0 +1,463 @@
+[gd_scene load_steps=21 format=3 uid="uid://cgxu0xsvbqgeu"]
+
+[ext_resource type="PackedScene" uid="uid://c81bn35x8ovxe" path="res://levels/player.tscn" id="1_psb8j"]
+[ext_resource type="Script" path="res://levels/main_level.gd" id="1_wsuni"]
+[ext_resource type="FontFile" uid="uid://c302n8emoo2ik" path="res://Boogaloo-Regular.ttf" id="4_1jvb1"]
+[ext_resource type="PackedScene" uid="uid://ho61u06xdrpd" path="res://levels/grinch.tscn" id="4_ot7kp"]
+[ext_resource type="PackedScene" uid="uid://baosfks84tdba" path="res://levels/gift.tscn" id="5_xihi2"]
+[ext_resource type="Script" path="res://scripts/Manager.gd" id="6_lqn7h"]
+[ext_resource type="Texture2D" uid="uid://oup3h5o1rw06" path="res://level sprites/Tilemap_City.png" id="6_lsc0c"]
+[ext_resource type="Texture2D" uid="uid://yxu8eiinvi8r" path="res://level sprites/Map_City.png" id="7_32os4"]
+
+[sub_resource type="GDScript" id="GDScript_s7n0l"]
+resource_name = "mobs"
+script/source = "extends Node2D
+
+var grinch = preload(\"res://levels/grinch.tscn\")
+
+func _on_timer_timeout():
+	if Global.scene_grinches < 3:
+		var grinch_Item = grinch.instantiate()
+		var rng = RandomNumberGenerator.new()
+		rng.randomize()
+		
+		var area = rng.randi_range(1, 8)
+		
+		
+		if area == 1:
+			grinch_Item.position = Vector2(rng.randi_range(10, 200), 500)
+		elif area == 2:
+			grinch_Item.position = Vector2(rng.randi_range(230, 420), 463)
+		elif area == 3:
+			grinch_Item.position = Vector2(rng.randi_range(500, 620), 575)
+		elif area == 4:
+			grinch_Item.position = Vector2(rng.randi_range(940, 1090), 500)
+		elif area == 5:
+			grinch_Item.position = Vector2(rng.randi_range(1140, 1320), 500)
+		elif area == 6:
+			grinch_Item.position = Vector2(rng.randi_range(1360, 1550), 463)
+		elif area == 7:
+			grinch_Item.position = Vector2(rng.randi_range(1620, 1750), 575)
+		elif area == 8:
+			grinch_Item.position = Vector2(rng.randi_range(2070, 2020), 500)
+			
+		Global.scene_grinches += 1
+		add_child(grinch_Item)
+"
+
+[sub_resource type="GDScript" id="GDScript_1iasg"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	text = \"HP: \" + str($\"../../Player\".health)
+"
+
+[sub_resource type="GDScript" id="GDScript_ob8bd"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	text = \"Gifts: \" + str($\"../../Player\".gifts)
+"
+
+[sub_resource type="GDScript" id="GDScript_4s3vc"]
+resource_name = "collectibles"
+script/source = "extends Node2D
+
+var gift = preload(\"res://levels/gift.tscn\")
+
+func _on_timer_timeout():
+	if Global.scene_gifts < 8:
+		var gift_Item = gift.instantiate()
+		var rng = RandomNumberGenerator.new()
+		rng.randomize()
+		
+		var area = rng.randi_range(1, 8)
+		
+		if area == 1:
+			gift_Item.position = Vector2(rng.randi_range(10, 200), 551)
+		elif area == 2:
+			gift_Item.position = Vector2(rng.randi_range(230, 420), 514)
+		elif area == 3:
+			gift_Item.position = Vector2(rng.randi_range(500, 620), 625)
+		elif area == 4:
+			gift_Item.position = Vector2(rng.randi_range(940, 1090), 551)
+		elif area == 5:
+			gift_Item.position = Vector2(rng.randi_range(1140, 1320), 551)
+		elif area == 6:
+			gift_Item.position = Vector2(rng.randi_range(1360, 1550), 514)
+		elif area == 7:
+			gift_Item.position = Vector2(rng.randi_range(1620, 1750), 625)
+		elif area == 8:
+			gift_Item.position = Vector2(rng.randi_range(2070, 2020), 551)
+			
+		Global.scene_gifts += 1
+		add_child(gift_Item)
+"
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nm8bb"]
+texture = ExtResource("6_lsc0c")
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+12:0/0 = 0
+13:0/0 = 0
+14:0/0 = 0
+15:0/0 = 0
+16:0/0 = 0
+17:0/0 = 0
+18:0/0 = 0
+19:0/0 = 0
+20:0/0 = 0
+21:0/0 = 0
+22:0/0 = 0
+23:0/0 = 0
+24:0/0 = 0
+25:0/0 = 0
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_cl5na"]
+sources/0 = SubResource("TileSetAtlasSource_nm8bb")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_54llf"]
+size = Vector2(1233.4, 560.652)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jj7pa"]
+size = Vector2(1233.4, 783.237)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w43es"]
+size = Vector2(1236.41, 111.34)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4j3p"]
+size = Vector2(109.238, 108.939)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_235y8"]
+size = Vector2(2241.31, 560.111)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0esn0"]
+size = Vector2(11, 19)
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_wsuni")
+
+[node name="Manager" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("6_lqn7h")
+
+[node name="Player" parent="." instance=ExtResource("1_psb8j")]
+top_level = true
+position = Vector2(25, 509)
+
+[node name="Mobs" type="Node2D" parent="."]
+script = SubResource("GDScript_s7n0l")
+
+[node name="Grinch" parent="Mobs" instance=ExtResource("4_ot7kp")]
+position = Vector2(342.595, 463)
+
+[node name="Timer" type="Timer" parent="Mobs"]
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 33.0
+offset_top = 38.0
+offset_right = 171.0
+offset_bottom = 99.0
+theme_override_colors/font_color = Color(0.905882, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_1jvb1")
+theme_override_font_sizes/font_size = 33
+text = "HP: "
+script = SubResource("GDScript_1iasg")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+offset_left = 31.0
+offset_top = 87.0
+offset_right = 154.0
+offset_bottom = 164.0
+theme_override_colors/font_color = Color(0.905882, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_1jvb1")
+theme_override_font_sizes/font_size = 33
+text = "Gifts: "
+script = SubResource("GDScript_ob8bd")
+metadata/_edit_use_anchors_ = true
+
+[node name="Collectibles" type="Node2D" parent="."]
+script = SubResource("GDScript_4s3vc")
+
+[node name="Gift" parent="Collectibles" instance=ExtResource("5_xihi2")]
+position = Vector2(172.425, 550.68)
+
+[node name="Timer" type="Timer" parent="Collectibles"]
+autostart = true
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_cl5na")
+format = 2
+layer_0/tile_data = PackedInt32Array(2555904, 917504, 0, 2490368, 917504, 0, 2490369, 917504, 0)
+
+[node name="MapCity" type="Sprite2D" parent="."]
+position = Vector2(1127, 323)
+scale = Vector2(0.165689, 0.165689)
+texture = ExtResource("7_32os4")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D"]
+position = Vector2(-6181.73, 1679.67)
+shape = SubResource("RectangleShape2D_54llf")
+
+[node name="StaticBody2D29" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D29"]
+position = Vector2(-7411.47, 1152.76)
+shape = SubResource("RectangleShape2D_54llf")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D2"]
+position = Vector2(-4835.84, 1568.38)
+shape = SubResource("RectangleShape2D_jj7pa")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D3"]
+position = Vector2(-3268.14, 1904.33)
+shape = SubResource("RectangleShape2D_w43es")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D4"]
+position = Vector2(-2932.57, 1790.86)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D5"]
+position = Vector2(-2820.68, 1678.83)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D6"]
+position = Vector2(-2708.76, 1566.72)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D25" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D25"]
+position = Vector2(-2708.64, 1676.34)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D26" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D26"]
+position = Vector2(-2709.23, 1784.97)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D27" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D27"]
+position = Vector2(-2708.64, 1676.34)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D28" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D28"]
+position = Vector2(-2709.23, 1784.97)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D7"]
+position = Vector2(-1476.54, 1118.59)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D21" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D21"]
+position = Vector2(-1476.53, 1228.41)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D22" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D22"]
+position = Vector2(-1476.56, 1338.35)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D23" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D23"]
+position = Vector2(-1476.53, 1228.41)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D24" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D24"]
+position = Vector2(-1476.56, 1338.35)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D8"]
+position = Vector2(-1365.15, 1230.68)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D9" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D9"]
+position = Vector2(-1253.15, 1342.63)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D10" type="StaticBody2D" parent="MapCity"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D10"]
+position = Vector2(-1308.14, 1679.94)
+shape = SubResource("RectangleShape2D_235y8")
+
+[node name="StaticBody2D11" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D11"]
+position = Vector2(-6181.73, 1679.67)
+shape = SubResource("RectangleShape2D_54llf")
+
+[node name="StaticBody2D12" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D12"]
+position = Vector2(-4835.84, 1568.38)
+shape = SubResource("RectangleShape2D_jj7pa")
+
+[node name="StaticBody2D13" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D13"]
+position = Vector2(-3268.14, 1904.33)
+shape = SubResource("RectangleShape2D_w43es")
+
+[node name="StaticBody2D14" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D14"]
+position = Vector2(-2932.57, 1790.86)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D15" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D15"]
+position = Vector2(-2820.68, 1678.83)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D16" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D16"]
+position = Vector2(-2708.76, 1566.72)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D17" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D17"]
+position = Vector2(-1476.54, 1118.59)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D18" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D18"]
+position = Vector2(-1365.15, 1230.68)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D19" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D19"]
+position = Vector2(-1253.15, 1342.63)
+scale = Vector2(1.025, 1)
+shape = SubResource("RectangleShape2D_j4j3p")
+
+[node name="StaticBody2D20" type="StaticBody2D" parent="MapCity"]
+position = Vector2(6831.7, -1.50854)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapCity/StaticBody2D20"]
+position = Vector2(-1308.14, 1679.94)
+shape = SubResource("RectangleShape2D_235y8")
+
+[node name="Portal 1" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal 1"]
+position = Vector2(303, 508)
+shape = SubResource("RectangleShape2D_0esn0")
+
+[node name="Portal 2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal 2"]
+position = Vector2(786, 545)
+shape = SubResource("RectangleShape2D_0esn0")
+
+[node name="Portal 3" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal 3"]
+position = Vector2(1435, 508)
+shape = SubResource("RectangleShape2D_0esn0")
+
+[node name="Portal 4" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Portal 4"]
+position = Vector2(1732, 620)
+shape = SubResource("RectangleShape2D_0esn0")
+
+[connection signal="timeout" from="Mobs/Timer" to="Mobs" method="_on_timer_timeout"]
+[connection signal="timeout" from="Collectibles/Timer" to="Collectibles" method="_on_timer_timeout"]
+[connection signal="body_entered" from="Portal 1" to="." method="_on_portal_1_body_entered"]
+[connection signal="body_entered" from="Portal 2" to="." method="_on_portal_2_body_entered"]
+[connection signal="body_entered" from="Portal 3" to="." method="_on_portal_3_body_entered"]
+[connection signal="body_entered" from="Portal 4" to="." method="_on_portal_4_body_entered"]
